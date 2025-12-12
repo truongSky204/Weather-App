@@ -1,325 +1,148 @@
-🌤 Ứng dụng Thời Tiết Flutter – thoitietapp
+# 🌦️ Ứng dụng Thời Tiết Flutter – *thoitietapp*
+
+Ứng dụng Flutter hiển thị **thời tiết theo thời gian thực** từ OpenWeatherMap API, hỗ trợ tìm kiếm thành phố, dự báo 5 ngày, định vị GPS, chế độ offline và màn hình cài đặt đầy đủ.
 
-Ứng dụng Flutter hiển thị thời tiết theo thời gian thực sử dụng API của OpenWeatherMap.
-Hỗ trợ xem thời tiết hiện tại, dự báo 5 ngày, dự báo theo giờ, tìm kiếm thành phố, lưu yêu thích, định vị GPS, làm việc offline và tùy chọn đơn vị đo (°C/°F, m/s – km/h – mph, 12h/24h).
+---
 
-Ứng dụng được phát triển theo yêu cầu bài thực hành Chapter 4 – Weather Application with API Integration.
+## 📌 Mục lục
 
-✨ Tính năng chính
-🏙 Thời tiết hiện tại
+- [Giới thiệu](#-giới-thiệu)
+- [Tính năng](#-tính-năng)
+- [Kiến trúc & Công nghệ](#-kiến-trúc--công-nghệ)
+- [Screenshots](#-screenshots)
+- [Cài đặt & Chạy ứng dụng](#-cài-đặt--chạy-ứng-dụng)
+- [Cấu trúc thư mục](#️-cấu-trúc-thư-mục)
+- [Hướng phát triển](#-hướng-phát-triển)
+- [Thông tin sinh viên](#-thông-tin-sinh-viên)
 
-Nhiệt độ & cảm giác như
+---
 
-Trạng thái thời tiết + icon
+## 🌟 Giới thiệu
 
-Thành phố, quốc gia
+`thoitietapp` là một ứng dụng Flutter giúp người dùng:
 
-Thời gian, ngày tháng
+- Xem thời tiết hiện tại theo vị trí GPS hoặc tên thành phố
+- Xem dự báo theo giờ và dự báo 5 ngày
+- Lưu thành phố yêu thích
+- Xem lịch sử tìm kiếm
+- Hoạt động offline nhờ cơ chế cache
+- Cho phép đổi đơn vị trong Settings
 
-Độ ẩm, áp suất, tầm nhìn, tốc độ gió
+---
 
-📅 Dự báo thời tiết
+## 🚀 Tính năng
 
-Dự báo theo giờ (24 giờ)
+### 🌤️ Thời tiết hiện tại
+- Nhiệt độ, feels like
+- Mô tả thời tiết + icon
+- Humidity, wind speed, visibility
+- Cloudiness & pressure
+- UI gradient theo điều kiện thời tiết
 
-Dự báo 5 ngày
+### ⏳ Dự báo
+- Hourly forecast
+- 5-day forecast
+- Nhiệt độ min/max + mô tả
 
-Nhiệt độ min – max
+### 📍 Định vị GPS
+- Lấy vị trí hiện tại
+- Tự động load thời tiết theo location
 
-Mô tả thời tiết
+### 🔍 Tìm kiếm & Yêu thích
+- Tìm kiếm theo tên thành phố
+- Lưu tối đa 5 thành phố yêu thích
+- Hiển thị lịch sử tìm kiếm
 
-Tốc độ gió theo từng giờ/ngày
+### 💾 Offline Support
+- Tự động lưu cache thời tiết
+- Sử dụng khi offline
 
-📍 Định vị & vị trí người dùng
+### ⚙️ Settings
+- Celsius (°C) ↔ Fahrenheit (°F)
+- m/s ↔ km/h ↔ mph
+- 12h ↔ 24h
+- Lưu cài đặt bằng SharedPreferences
 
-Lấy vị trí GPS tự động
+---
 
-Hiển thị thời tiết đúng địa phương
+## 🏗️ Kiến trúc & Công nghệ
 
-Xử lý quyền truy cập vị trí (grant / deny / deny forever)
+| Công nghệ | Mô tả |
+|----------|-------|
+| Flutter | UI framework |
+| Dart | Ngôn ngữ chính |
+| Provider | State management |
+| http | Gọi API |
+| geolocator | Lấy vị trí |
+| shared_preferences | Cache offline |
+| flutter_dotenv | Bảo mật API key |
+| intl | Format ngày giờ |
+| cached_network_image | Tải icon thời tiết |
 
-Tự động fallback sang chế độ tìm kiếm nếu không cấp quyền
+---
 
-🔍 Tìm kiếm thành phố
+## 📸 Screenshots
 
-Tìm theo tên thành phố
+### Bảng hình ảnh minh họa giao diện
 
-Lượt tìm gần đây
+| Ảnh | Mô tả |
+|-----|-------|
+| ![](screenshot/home_sunny.png) | 🌞 Home – Trời nắng, UI gradient sáng |
+| ![](screenshot/home_rainy.png) | 🌧️ Home – Trời mưa / nhiều mây |
+| ![](screenshot/ForecastScreen.png) | 📅 Dự báo thời tiết 5 ngày |
+| ![](screenshot/search_screen_thudau mot.png) | 🔍 Tìm kiếm – Thủ Dầu Một |
+| ![](screenshot/searchcity.png) | 📌 Giao diện tìm kiếm chung |
+| ![](screenshot/HaNoiVn.png) | 🇻🇳 Thời tiết Hà Nội |
+| ![](screenshot/satiado.png) | 🏙️ Thời tiết TP Hồ Chí Minh |
+| ![](screenshot/setting.png) | ⚙️ Màn hình Settings |
 
-Lưu thành phố yêu thích (tối đa 5)
+---
 
-Nhấn để xem lại nhanh
+## ⚙️ Cài đặt & Chạy ứng dụng
 
-📡 Hoạt động ngoại tuyến (Offline)
+### 1️⃣ Cài dependencies
+Thông tin sinh viên
 
-Lưu cache thời tiết cuối cùng
-
-Sử dụng dữ liệu cũ khi:
-
-Mất mạng
-
-API trả lỗi
-
-Hết giới hạn API
-
-Hiển thị thông báo “Đang dùng dữ liệu cũ”
-
-🔧 Cài đặt (Settings)
-
-Người dùng có thể tùy chỉnh:
-
-Đơn vị nhiệt độ
-
-°C – Celsius
-
-°F – Fahrenheit
-
-Đơn vị tốc độ gió
-
-m/s
-
-km/h
-
-mph
-
-Định dạng thời gian
-
-24h
-
-12h (AM/PM)
-
-Toàn bộ cài đặt được lưu bằng SharedPreferences.
-
-🎨 Giao diện động theo thời tiết
-
-BG gradient thay đổi tùy theo:
-
-Trời nắng
-
-Mây nhiều
-
-Trời mưa
-
-Buổi tối
-
-Shimmer loading khi tải dữ liệu
-
-Dark theme thẩm mỹ, chữ sáng dễ đọc
-
-🗂 Cấu trúc thư mục dự án
-lib/
-main.dart
-
-config/
-api_config.dart
-
-models/
-weather_model.dart
-forecast_model.dart
-
-services/
-weather_service.dart
-location_service.dart
-storage_service.dart
-
-providers/
-weather_provider.dart
-settings_provider.dart
-
-screens/
-home_screen.dart
-search_screen.dart
-settings_screen.dart
-
-widgets/
-current_weather_card.dart
-hourly_forecast_list.dart
-daily_forecast_card.dart
-weather_detail_item.dart
-loading_shimmer.dart
-error_widget_custom.dart
-
-🔑 Thiết lập API (OpenWeatherMap)
-
-Ứng dụng sử dụng API miễn phí từ OpenWeatherMap.
-
-Cách tạo API Key:
-
-Vào https://openweathermap.org/api
-
-Tạo tài khoản → lấy API key
-
-Tạo file .env trong thư mục gốc:
-
-OPENWEATHER_API_KEY=YOUR_API_KEY_HERE
-
-
-Đảm bảo file .env KHÔNG được đưa lên GitHub:
-
-Trong .gitignore:
-
-.env
-*.env
-
-▶️ Cách chạy ứng dụng
-1. Clone project:
-   git clone https://github.com/[username]/flutter_weather_app_[yourname].git
-   cd flutter_weather_app_[yourname]
-
-2. Cài đặt package:
-   flutter pub get
-
-3. Tạo file .env:
-   cp .env.example .env
-
-
-Sau đó dán API key vào .env.
-
-4. Chạy ứng dụng:
-   flutter run
-
-
-Hoặc chọn Run trong VSCode / Android Studio.
-
-🛠 Công nghệ sử dụng
-
-Flutter & Dart
-
-Provider (quản lý trạng thái)
-
-OpenWeatherMap API
-
-SharedPreferences
-
-Geolocator & Geocoding
-
-HTTP client (http package)
-
-CachedNetworkImage
-
-flutter_dotenv
-
-intl
-
-📸 Ảnh màn hình ứng dụng (Screenshots)
-
-Lưu tất cả ảnh vào thư mục /screenshots trước khi nộp.
-
-Màn hình chính – Trời nắng
-
-Màn hình chính – Trời mưa
-
-Màn hình chính – Trời nhiều mây
-
-Màn hình ban đêm
-
-Màn hình tìm kiếm
-
-Màn hình cài đặt
-
-Màn hình lỗi (Error)
-
-Màn hình loading (Shimmer)
-
-(Thay bằng hình thực tế của bạn sau khi chạy app)
-
-⚠️ Giới hạn hiện tại
-
-Chưa hỗ trợ cảnh báo thời tiết (Weather Alerts)
-
-Chưa tích hợp bản đồ thời tiết (Radar map)
-
-Chưa có widget màn hình chính (Android/iOS)
-
-Chưa hỗ trợ đa ngôn ngữ
-
-Dự báo dài hạn (7–14 ngày) chưa có
-
-🚀 Hướng phát triển trong tương lai
-
-Tích hợp Air Quality Index (AQI)
-
-Thêm Weather Alerts (cảnh báo mưa bão)
-
-Thêm biểu đồ nhiệt độ / mưa trực quan
-
-Widget home screen
-
-Hỗ trợ đa ngôn ngữ (VN/EN)
-
-Fallback API thứ 2 khi hết giới hạn OpenWeatherMap
-
-Tối ưu hiệu năng và caching
-
-🧪 Kiểm thử (Testing)
-Kiểm thử thủ công:
-
-Mạng ổn định → tải thời tiết bình thường
-
-Không có mạng → dùng dữ liệu cache
-
-Tắt GPS → buộc chuyển sang tìm kiếm bằng tay
-
-Sai tên thành phố → hiển thị lỗi
-
-Thay đổi đơn vị đo trong Settings → cập nhật toàn app
-
-Kéo để refresh → tải lại dữ liệu
-
-Kiểm thử đơn vị (Unit Test – ví dụ):
-test('Parse WeatherModel JSON', () {
-final json = {
-"name": "Ho Chi Minh City",
-"sys": {"country": "VN"},
-"main": {
-"temp": 30.0,
-"feels_like": 32.0,
-"humidity": 70
-},
-"weather": [
-{"description": "clear sky", "icon": "01d", "main": "Clear"}
-],
-"wind": {"speed": 3.5},
-"dt": 1700000000
-};
-
-final model = WeatherModel.fromJson(json);
-expect(model.cityName, "Ho Chi Minh City");
-expect(model.temperature, 30.0);
-});
-
-📌 Thông tin sinh viên
-
-Họ tên: [Lê Xuân Trường]
+Họ tên: [Lê Xuân trường]
 
 MSSV: [2224801030263]
 
 Lớp: [d22ktpm01]
+```bash
+flutter pub get
+flutter run
+lib/
+  main.dart
+  config/
+    api_config.dart
+  models/
+    weather_model.dart
+    forecast_model.dart
+  services/
+    weather_service.dart
+    location_service.dart
+    storage_service.dart
+  providers/
+    weather_provider.dart
+    settings_provider.dart
+  screens/
+    home_screen.dart
+    search_screen.dart
+    settings_screen.dart
+  widgets/
+    current_weather_card.dart
+    hourly_forecast_list.dart
+    daily_forecast_card.dart
+    loading_shimmer.dart
+    error_widget_custom.dart
+    weather_detail_item.dart
 
-Bài thực hành: Chapter 4 – Weather App
-
-Đã xóa thư mục build/, .dart_tool/, Pods/
-
-Có thư mục screenshots/ đầy đủ hình
-
-README.md hoàn chỉnh
-
-API key sử dụng: OpenWeatherMap
-
-Các tính năng đã làm:
-
-Thời tiết hiện tại
-
-Dự báo theo giờ & 5 ngày
-
-Tìm kiếm, lưu lịch sử
-
-Yêu thích
-
-Cài đặt đơn vị đo
-
-Offline cache
-
-Dark theme + UI động
-
-Đã kiểm thử thủ công trên Android
+screenshot/
+  home_sunny.png
+  home_rainy.png
+  HaNoiVn.png
+  satiado.png
+  ForecastScreen.png
+  searchcity.png
+  search_screen_thudau mot.png
+  setting.png
